@@ -28,28 +28,28 @@ vector<Dados> ler_csv(string nome_arquivo) {
         while (getline(arquivo, linha)) {      // Lê cada linha do arquivo
             Dados d;                           // Cria um objeto da estrutura Dados
             size_t pos = 0;                    // Posição do separador (vírgula)
-            pos = linha.find(",");             // Encontra a primeira vírgula
+            pos = linha.find(";");             // Encontra a primeira vírgula
             d.Cliente = linha.substr(0, pos);  // Extrai o nome do cliente
             linha.erase(0, pos + 1);           // Remove o nome e a vírgula da linha
-            pos = linha.find(",");             // Encontra a segunda vírgula
+            pos = linha.find(";");             // Encontra a segunda vírgula
             d.CPF_CNPJ = linha.substr(0, pos); // Extrai o cpf ou cnpj do cliente
             linha.erase(0, pos + 1);           // Remove o cpf ou cnpj e a vírgula da linha
-            pos = linha.find(",");             // Encontra a segunda vírgula
+            pos = linha.find(";");             // Encontra a segunda vírgula
             d.Titulo = linha.substr(0, pos);   // Extrai o titulo do cliente
             linha.erase(0, pos + 1);           // Remove o titulo e a vírgula da linha
-            pos = linha.find(",");             // Encontra a segunda vírgula
+            pos = linha.find(";");             // Encontra a segunda vírgula
             d.Doc = linha.substr(0, pos);      // Extrai o Documento do cliente
             linha.erase(0, pos + 1);           // Remove o Documento e a vírgula da linha
-            pos = linha.find(",");             // Encontra a segunda vírgula
+            pos = linha.find(";");             // Encontra a segunda vírgula
             d.Parc = linha.substr(0, pos);     // Extrai a parcela
             linha.erase(0, pos + 1);           // Remove a parcela e a vírgula da linha
-            pos = linha.find(",");             // Encontra a segunda vírgula
+            pos = linha.find(";");             // Encontra a segunda vírgula
             d.Vlr = linha.substr(0, pos);      // Extrai o Valor
             linha.erase(0, pos + 1);           // Remove o Valor e a vírgula da linha
-            pos = linha.find(",");             // Encontra a segunda vírgula
+            pos = linha.find(";");             // Encontra a segunda vírgula
             d.Venc = linha.substr(0, pos);     // Extrai o Vencimento
             linha.erase(0, pos + 1);           // Remove o Vencimento e a vírgula da linha
-            pos = linha.find(",");             // Encontra a segunda vírgula
+            pos = linha.find(";");             // Encontra a segunda vírgula
             d.cdTipoCondicao = linha.substr(0, pos); // Extrai o código do tipo de condição
             linha.erase(0, pos + 1);                 // Remove o código e a vírgula da linha
             dados.push_back(d);                      // Adiciona o objeto d ao vetor de dados
@@ -107,7 +107,7 @@ void criar_csv(vector<Dados> dados, string nome_arquivo) {
             << d.Parc << "|" 
             << d.Vlr << "|" 
             << d.Venc << "|"
-            << "|" << d.cdTipoCondicao << ",";
+            << d.cdTipoCondicao << ",";
             arquivo << "\n"; // Quebra a linha
         }
         arquivo.close(); // Fecha o arquivo
