@@ -102,7 +102,7 @@ void criar_csv(vector<Dados> dados, string nome_arquivo) {
     if (arquivo.is_open()) { // Verifica se o arquivo foi aberto com sucesso
         arquivo << "Nome,CPF_CNPJ\tTitulo\tDocumento\tParcela\tValor\tVencimento\tcdTipoCondicao\n"; // Escreve o cabeçalho do arquivo
         for (auto d : dados) { // Percorre o vetor de dados
-            arquivo << d.Cliente  
+            arquivo << d.Cliente << "|"  
             << d.CPF_CNPJ << "|" 
             << d.Titulo << "|" 
             << d.Doc << "|"
