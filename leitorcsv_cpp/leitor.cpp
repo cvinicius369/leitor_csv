@@ -8,7 +8,13 @@ using namespace std;
 
 // Define uma estrutura para armazenar os dados de cada linha do arquivo csv
 struct Dados {
-    string nome; // Nome do cliente
+    string Cliente; // Nome do cliente
+    string CPF_CNPJ;
+    string Titulo;
+    string Doc;
+    string Parc;
+    string Vlr;
+    string Venc;
     string cdTipoCondicao; // Código do tipo de condição
     // Outros campos que você quiser adicionar
 };
@@ -24,7 +30,25 @@ vector<Dados> ler_csv(string nome_arquivo) {
             Dados d; // Cria um objeto da estrutura Dados
             size_t pos = 0; // Posição do separador (vírgula)
             pos = linha.find(","); // Encontra a primeira vírgula
-            d.nome = linha.substr(0, pos); // Extrai o nome do cliente
+            d.Cliente = linha.substr(0, pos); // Extrai o nome do cliente
+            linha.erase(0, pos + 1); // Remove o nome e a vírgula da linha
+            pos = linha.find(","); // Encontra a segunda vírgula
+            d.CPF_CNPJ = linha.substr(0, pos); // Extrai o cpj do cliente
+            linha.erase(0, pos + 1); // Remove o nome e a vírgula da linha
+            pos = linha.find(","); // Encontra a segunda vírgula
+            d.Titulo = linha.substr(0, pos); // Extrai o nome do cliente
+            linha.erase(0, pos + 1); // Remove o nome e a vírgula da linha
+            pos = linha.find(","); // Encontra a segunda vírgula
+            d.Doc = linha.substr(0, pos); // Extrai o nome do cliente
+            linha.erase(0, pos + 1); // Remove o nome e a vírgula da linha
+            pos = linha.find(","); // Encontra a segunda vírgula
+            d.Parc = linha.substr(0, pos); // Extrai o nome do cliente
+            linha.erase(0, pos + 1); // Remove o nome e a vírgula da linha
+            pos = linha.find(","); // Encontra a segunda vírgula
+            d.Vlr = linha.substr(0, pos); // Extrai o nome do cliente
+            linha.erase(0, pos + 1); // Remove o nome e a vírgula da linha
+            pos = linha.find(","); // Encontra a segunda vírgula
+            d.Venc = linha.substr(0, pos); // Extrai o nome do cliente
             linha.erase(0, pos + 1); // Remove o nome e a vírgula da linha
             pos = linha.find(","); // Encontra a segunda vírgula
             d.cdTipoCondicao = linha.substr(0, pos); // Extrai o código do tipo de condição
@@ -43,7 +67,14 @@ return dados; // Retorna o vetor de dados
 void mostrar_tabela(vector<Dados> dados) {
     cout << "Nome\tCpfCnpj\tTitulo\tDoc\tParc\tVlr\tVenc\tcdTipoCondicao\n"; // Imprime o cabeçalho da tabela
     for (auto d : dados) { // Percorre o vetor de dados
-        cout << d.nome << "\t" << d.cdTipoCondicao << "\t"; // Imprime o nome e o código do tipo de condição
+        cout << d.Cliente << "\t" 
+        << d.CPF_CNPJ << "\t" 
+        << d.Titulo << "\t" 
+        << d.Doc << "\t" 
+        << d.Parc << "\t" 
+        << d.Vlr << "\t" 
+        << d.Venc << "\t" 
+        << d.cdTipoCondicao << "\t"; // Imprime o nome e o código do tipo de condição
         // Imprime os outros campos que você quiser mostrar
         cout << "\n"; // Quebra a linha
     }
@@ -60,7 +91,7 @@ void remover_AT(vector<Dados>& dados) {
 void remover_clientes(vector<Dados>& dados1, vector<Dados> dados2) {
     dados1.erase(remove_if(dados1.begin(), dados1.end(), [&dados2](Dados d1) {
         return any_of(dados2.begin(), dados2.end(), [d1](Dados d2) {
-            return d1.nome == d2.nome; // Retorna verdadeiro se o nome do cliente for igual
+            return d1.Cliente == d2.Cliente; // Retorna verdadeiro se o nome do cliente for igual
         }); // Retorna verdadeiro se algum elemento do segundo vetor satisfazer a condição
     }), dados1.end()); // Remove os elementos que satisfazem a condição
 }
@@ -69,9 +100,16 @@ void remover_clientes(vector<Dados>& dados1, vector<Dados> dados2) {
 void criar_csv(vector<Dados> dados, string nome_arquivo) {
     ofstream arquivo(nome_arquivo); // Abre o arquivo para escrita
     if (arquivo.is_open()) { // Verifica se o arquivo foi aberto com sucesso
-        arquivo << "Nome,CPF_CNPJ,Titulo,Documento,Parcela,Valor,Vencimento,cdTipoCondicao\n"; // Escreve o cabeçalho do arquivo
+        arquivo << "Nome,CPF_CNPJ\tTitulo\tDocumento\tParcela\tValor\tVencimento\tcdTipoCondicao\n"; // Escreve o cabeçalho do arquivo
         for (auto d : dados) { // Percorre o vetor de dados
-            arquivo << d.nome << "," << d.cdTipoCondicao << ","; // Escreve o nome e o código do tipo de condição
+            arquivo << d.Cliente  
+            << d.CPF_CNPJ << "|" 
+            << d.Titulo << "|" 
+            << d.Doc << "|"
+            << d.Parc << "|" 
+            << d.Vlr << "|" 
+            << d.Venc << "|"
+            << "|" << d.cdTipoCondicao << ","; // Escreve o nome e o código do tipo de condição
             // Escreve os outros campos que você quiser incluir
             arquivo << "\n"; // Quebra a linha
         }
