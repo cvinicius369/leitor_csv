@@ -107,7 +107,7 @@ void remover_clientes(vector<Dados>& dados1, vector<Dados> dados2) {
 void criar_csv(vector<Dados> dados, string nome_arquivo) {
     ofstream arquivo(nome_arquivo);                                                             // Abre o arquivo para escrita
     if (arquivo.is_open()) {                                                                    // Verifica se o arquivo foi aberto com sucesso
-        arquivo << "Nome,CPF_CNPJ;Titulo;Documento;Parcela;Valor;Vencimento;cdTipoCondicao\n";  // Escreve o cabeçalho do arquivo
+        arquivo << "Nome;CPF_CNPJ;Titulo;Documento;Parcela;Valor;Vencimento;cdTipoCondicao\n";  // Escreve o cabeçalho do arquivo
         for (auto d : dados) {                                                                  // Percorre o vetor de dados
             arquivo << d.Cliente << ";"
                 << d.CPF_CNPJ << ";"
