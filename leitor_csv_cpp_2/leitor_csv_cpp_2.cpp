@@ -154,3 +154,5 @@ int main() {
     system("pause");
     return 0; // Encerra o programa
 }
+
+// Copyright © 2024, Caio Vinicius de Almeida Faguette
