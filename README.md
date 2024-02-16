@@ -4,21 +4,21 @@ Software para leitura, manipulação e edição de arquivos CSV
 
 ## Funcionamento
 1. O software lê o primeiro arquivo, identifica colunas especificas, são elas:
-    1. Cliente:
+    - Cliente:
         - Nome completo do cliente
-    2. CPF_CNPJ:
+    - CPF_CNPJ:
         - CPF ou CNPJ
-    3. Titulo:
+    - Titulo:
         - Titulo/documento de identificação do contrato
-    4. Doc:
+    - Doc:
         - Documento do contrato
-    5. Parc:
+    - Parc:
         - Parcela
-    6. Vlr:
+    - Vlr:
         - Valor da parcela
-    7. Venc:
+    - Venc:
         - Vencimento da parcela
-    8. cdTipoCondicao:
+    - cdTipoCondicao:
         - Condiçao de pagamento
 
 2. Após realizada a leitura e identificação das colunas, o software cria uma tabela no CMD para melhor visualização dos dados
