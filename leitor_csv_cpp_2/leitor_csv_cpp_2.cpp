@@ -122,10 +122,13 @@ void criar_csv(vector<Dados> dados, string nome_arquivo) {
 int main() {
     string nome_arquivo1;                 // Nome do primeiro arquivo csv
     string nome_arquivo2;                 // Nome do segundo arquivo csv
-    string nome_arquivo3 = "solucao.csv"; // Nome do novo arquivo csv
+    string nome_arquivo3;                 // Nome do novo arquivo csv
+    string caminho_arquivo3;              // caminho que será salvo o novo arquivo
 
-    cout << "Nome do Relatório: "; cin >> nome_arquivo1;
-    cout << "Nome da Lista: ";     cin >> nome_arquivo2;
+    cout << "Nome do Relatório: ";           cin >> nome_arquivo1;
+    cout << "Nome da Lista: ";               cin >> nome_arquivo2;
+    cout << "Nome da Planilha resultante: "; cin >> nome_arquivo3;
+    cout << "Caminho do diretório: ";        cin >> caminho_arquivo3;
 
     vector<Dados> dados1 = ler_csv(nome_arquivo1); // Lê o primeiro arquivo csv e armazena os dados em um vetor
     vector<Dados> dados2 = ler_csv(nome_arquivo2); // Lê o segundo arquivo csv e armazena os dados em outro vetor
@@ -137,9 +140,10 @@ int main() {
         
     cout << "Dados do primeiro arquivo depois da operação:\n"; // Imprime outra mensagem
     mostrar_tabela(dados1);           // Mostra os dados do primeiro arquivo em formato de tabela
-    criar_csv(dados1, nome_arquivo3); // Cria um novo arquivo csv com a solução da operação
+    criar_csv(dados1, caminho_arquivo3 + "/" + nome_arquivo3); // Cria um novo arquivo csv com a solução da operação
 
-    cout << "Novo arquivo csv criado com sucesso: " << nome_arquivo3 << endl; // Imprime uma mensagem de confirmação
+    // Imprime uma mensagem de confirmação// Imprime uma mensagem de confirmação
+    cout << "Novo arquivo csv criado com sucesso: " << caminho_arquivo3 + "/" + nome_arquivo3 << endl;
     system("pause");
     return 0; // Encerra o programa
 }
