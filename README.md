@@ -69,3 +69,7 @@ Software para leitura, manipulação e edição de arquivos CSV
     ```
     c://caminho/do/arquivo/arquivo.csv
     ```
+
+---
+### Copyright © Caio Vinicius de Almeida Faguette
+---

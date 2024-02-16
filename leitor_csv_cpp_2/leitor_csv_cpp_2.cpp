@@ -1,3 +1,11 @@
+/*
+    Projeto: Automação de edição de arquivos csv
+    By:      Caio Vinicius de Almeida Faguette
+    e-mail:  vinicius182102@gmail.com
+    Desrcição: 
+        O projeto foi feito para a realização de atividade extencionária da faculdade onde o objetivo
+        é desenvolver um software para uma instituição a fim de auxiliar as atividades da empresa.
+*/
 // Inclui as bibliotecas necessárias
 #include <iostream>
 #include <fstream>
@@ -34,22 +42,22 @@ vector<Dados> ler_csv(string nome_arquivo) {
             pos = linha.find(";");             // Encontra a segunda vírgula
             d.CPF_CNPJ = linha.substr(0, pos); // Extrai o cpf ou cnpj do cliente
             linha.erase(0, pos + 1);           // Remove o cpf ou cnpj e a vírgula da linha
-            pos = linha.find(";");             // Encontra a segunda vírgula
+            pos = linha.find(";");             // Encontra a terceira vírgula
             d.Titulo = linha.substr(0, pos);   // Extrai o titulo do cliente
             linha.erase(0, pos + 1);           // Remove o titulo e a vírgula da linha
-            pos = linha.find(";");             // Encontra a segunda vírgula
+            pos = linha.find(";");             // Encontra a quarta vírgula
             d.Doc = linha.substr(0, pos);      // Extrai o Documento do cliente
             linha.erase(0, pos + 1);           // Remove o Documento e a vírgula da linha
-            pos = linha.find(";");             // Encontra a segunda vírgula
+            pos = linha.find(";");             // Encontra a quinta vírgula
             d.Parc = linha.substr(0, pos);     // Extrai a parcela
             linha.erase(0, pos + 1);           // Remove a parcela e a vírgula da linha
-            pos = linha.find(";");             // Encontra a segunda vírgula
+            pos = linha.find(";");             // Encontra a sexta vírgula
             d.Vlr = linha.substr(0, pos);      // Extrai o Valor
             linha.erase(0, pos + 1);           // Remove o Valor e a vírgula da linha
-            pos = linha.find(";");             // Encontra a segunda vírgula
+            pos = linha.find(";");             // Encontra a setima vírgula
             d.Venc = linha.substr(0, pos);     // Extrai o Vencimento
             linha.erase(0, pos + 1);           // Remove o Vencimento e a vírgula da linha
-            pos = linha.find(";");             // Encontra a segunda vírgula
+            pos = linha.find(";");             // Encontra a oitava vírgula
             d.cdTipoCondicao = linha.substr(0, pos); // Extrai o código do tipo de condição
             linha.erase(0, pos + 1);                 // Remove o código e a vírgula da linha
             dados.push_back(d);                      // Adiciona o objeto d ao vetor de dados
@@ -82,7 +90,7 @@ void mostrar_tabela(vector<Dados> dados) {
 // Define uma função para remover as linhas onde a coluna cdTipoCondicao é 'AT'
 void remover_AT(vector<Dados>& dados) {
     dados.erase(remove_if(dados.begin(), dados.end(), [](Dados d) {
-        return d.cdTipoCondicao == "AT"; // Retorna verdadeiro se o código do tipo de condição for 'AT'
+        return d.cdTipoCondicao == "AT";     // Retorna verdadeiro se o código do tipo de condição for 'AT'
         }), dados.end());                    // Remove os elementos que satisfazem a condição
 }
 
@@ -90,17 +98,17 @@ void remover_AT(vector<Dados>& dados) {
 void remover_clientes(vector<Dados>& dados1, vector<Dados> dados2) {
     dados1.erase(remove_if(dados1.begin(), dados1.end(), [&dados2](Dados d1) {
         return any_of(dados2.begin(), dados2.end(), [d1](Dados d2) {
-            return d1.Cliente == d2.Cliente; // Retorna verdadeiro se o nome do cliente for igual
+            return d1.Cliente == d2.Cliente;     // Retorna verdadeiro se o nome do cliente for igual
             });                                  // Retorna verdadeiro se algum elemento do segundo vetor satisfazer a condição
         }), dados1.end());                       // Remove os elementos que satisfazem a condição
 }
 
 // Define uma função para criar um novo arquivo csv com a solução da operação
 void criar_csv(vector<Dados> dados, string nome_arquivo) {
-    ofstream arquivo(nome_arquivo);                                                                  // Abre o arquivo para escrita
-    if (arquivo.is_open()) {                                                                         // Verifica se o arquivo foi aberto com sucesso
-        arquivo << "Nome,CPF_CNPJ;Titulo;Documento;Parcela;Valor;Vencimento;cdTipoCondicao\n"; // Escreve o cabeçalho do arquivo
-        for (auto d : dados) {                                                                       // Percorre o vetor de dados
+    ofstream arquivo(nome_arquivo);                                                             // Abre o arquivo para escrita
+    if (arquivo.is_open()) {                                                                    // Verifica se o arquivo foi aberto com sucesso
+        arquivo << "Nome,CPF_CNPJ;Titulo;Documento;Parcela;Valor;Vencimento;cdTipoCondicao\n";  // Escreve o cabeçalho do arquivo
+        for (auto d : dados) {                                                                  // Percorre o vetor de dados
             arquivo << d.Cliente << ";"
                 << d.CPF_CNPJ << ";"
                 << d.Titulo << ";"
@@ -111,9 +119,9 @@ void criar_csv(vector<Dados> dados, string nome_arquivo) {
                 << d.cdTipoCondicao << ";";
             arquivo << "\n"; // Quebra a linha
         }
-        arquivo.close(); // Fecha o arquivo
+        arquivo.close();     // Fecha o arquivo
     }
-    else {                                                        // Se o arquivo não foi aberto com sucesso
+    else {                                                          // Se o arquivo não foi aberto com sucesso
         cout << "Erro ao criar o arquivo " << nome_arquivo << endl; // Imprime uma mensagem de erro
     }
 }
@@ -139,7 +147,7 @@ int main() {
     remover_clientes(dados1, dados2); // Remove os clientes que estão no segundo arquivo do primeiro arquivo
         
     cout << "Dados do primeiro arquivo depois da operação:\n"; // Imprime outra mensagem
-    mostrar_tabela(dados1);           // Mostra os dados do primeiro arquivo em formato de tabela
+    mostrar_tabela(dados1);                                    // Mostra os dados do primeiro arquivo em formato de tabela
     criar_csv(dados1, caminho_arquivo3 + "/" + nome_arquivo3); // Cria um novo arquivo csv com a solução da operação
 
     // Imprime uma mensagem de confirmação// Imprime uma mensagem de confirmação
