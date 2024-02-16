@@ -40,7 +40,10 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "detail": "Tarefa gerada pelo Depurador."
         }
     ],
