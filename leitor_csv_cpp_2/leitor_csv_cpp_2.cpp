@@ -130,12 +130,11 @@ void criar_csv(vector<Dados> dados, string nome_arquivo) {
 int main() {
     string nome_arquivo1;                 // Nome do primeiro arquivo csv
     string nome_arquivo2;                 // Nome do segundo arquivo csv
-    string nome_arquivo3;                 // Nome do novo arquivo csv
+    string nome_arquivo3 = "solucao.csv";                 // Nome do novo arquivo csv
     string caminho_arquivo3;              // caminho que será salvo o novo arquivo
 
     cout << "Nome do Relatório: ";           cin >> nome_arquivo1;
     cout << "Nome da Lista: ";               cin >> nome_arquivo2;
-    cout << "Nome da Planilha resultante: "; cin >> nome_arquivo3;
     cout << "Caminho do diretório: ";        cin >> caminho_arquivo3;
 
     vector<Dados> dados1 = ler_csv(nome_arquivo1); // Lê o primeiro arquivo csv e armazena os dados em um vetor
