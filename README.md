@@ -31,7 +31,7 @@ Software para leitura, manipulação e edição de arquivos CSV
 
 ## Instruções de Uso
 ### Extração dos Arquivos
-1. Extraia o primeiro arquivo em formato csv separado com ponto e virgula (;) com as seguintes colunas:
+1. Extraia o primeiro arquivo em formato csv separado com ponto e virgula (;) e no formato UTF-8 com as seguintes colunas:
     - Cliente
     - CPF_CNPJ
     - Titulo
@@ -40,7 +40,7 @@ Software para leitura, manipulação e edição de arquivos CSV
     - Valor
     - Vencimento
     - CondPagamento/Condiçao de pagamento
-2. Feita a extração do primeiro arquivo, extraia o segundo arquivo no mesmo formato (csv separado com ponto e virgula ";")
+2. Feita a extração do primeiro arquivo, extraia o segundo arquivo no mesmo formato (csv UTF-8 separado com ponto e virgula ";")
 3. Se necessário, edite-o para que a coluna de clientes seja a primeira, para que o leitor identifique
 4. Abra o leitor e informe o caminho do primeiro arquivo csv, segue exemplo:
     ```
@@ -69,6 +69,7 @@ Software para leitura, manipulação e edição de arquivos CSV
     ```
     c://caminho/do/arquivo/arquivo.csv
     ```
+- Os arquivos tem que ser csv, separados com ponto virgula e compátivel com UTF-8
 
 License
 Copyright © 2024, Caio Vinicius de Almeida Faguette. Released under the MIT License.
