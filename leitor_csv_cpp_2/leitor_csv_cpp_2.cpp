@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <sstream>
 using namespace std;
 
 // Define uma estrutura para armazenar os dados de cada linha do arquivo csv
@@ -26,8 +27,63 @@ struct Dados {
     string cdTipoCondicao; // Código do tipo de condição
 };
 
+// Define uma função para remover os acentos de uma string
+// Recebe uma string com acentos e retorna uma string sem acentos
+std::string RemoveAccents (std::string text) {
+    std::string comAcentos = "ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç";
+    std::string semAcentos = "AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc";
+    for (int i = 0; i < comAcentos.length(); i++) {
+        size_t pos = text.find(comAcentos[i]); // Encontra a posição do caractere com acento na string
+        if (pos != std::string::npos) { // Verifica se a posição é válida
+            size_t pos2 = semAcentos.find(comAcentos[i]); // Encontra a posição do caractere sem acento na string
+            if (pos2 < semAcentos.length()) { // Verifica se a posição é válida
+                text = text.replace(pos, 1, semAcentos.substr(pos2, 1)); // Substitui o caractere com acento pelo sem acento
+            }
+        }
+    }
+    return text;
+}
+
+// Define uma função para remover as aspas de uma string
+// Recebe uma string com aspas e retorna uma string sem aspas
+std::string removerAspas (std::string text) {
+    size_t pos = text.find("\"");         // Encontra a posição da primeira aspa na string
+    while (pos != std::string::npos) {    // Enquanto houver aspas na string
+        text = text.replace(pos, 1, "");  // Substitui a aspa por uma string vazia
+        pos = text.find("\"");            // Encontra a posição da próxima aspa na string
+    }
+    return text; // Retorna a string sem aspas
+}
+
+// Define uma função para remover os espaços em branco do início e do fim de uma string
+// Recebe uma string e retorna uma string sem os espaços em branco
+std::string trim (std::string text) {
+    size_t start = text.find_first_not_of(" "); // Encontra a posição do primeiro caractere que não é espaço
+    size_t end = text.find_last_not_of(" "); // Encontra a posição do último caractere que não é espaço
+    return text.substr(start, end - start + 1); // Retorna a substring entre as posições encontradas
+}
+
+// Define uma função para converter todos os caracteres de uma string para maiúsculas
+// Recebe uma string e retorna uma string com todos os caracteres em maiúsculas
+std::string toupper (std::string text) {
+    for (char& c : text) { // Percorre cada caractere da string
+        c = std::toupper(c); // Converte o caractere para maiúscula
+    }
+    return text; // Retorna a string convertida
+}
+
+// Define uma função para converter todos os caracteres de uma string para minúsculas
+// Recebe uma string e retorna uma string com todos os caracteres em minúsculas
+std::string tolower (std::string text) {
+    for (char& c : text) { // Percorre cada caractere da string
+        c = std::tolower(c); // Converte o caractere para minúscula
+    }
+    return text; // Retorna a string convertida
+}
+
 // Define uma função para ler um arquivo csv e retornar um vetor de dados
 vector<Dados> ler_csv(string nome_arquivo) {
+    char sep = ';';
     vector<Dados> dados;                       // Vetor para armazenar os dados
     ifstream arquivo(nome_arquivo);            // Abre o arquivo para leitura
     if (arquivo.is_open()) {                   // Verifica se o arquivo foi aberto com sucesso
@@ -35,40 +91,34 @@ vector<Dados> ler_csv(string nome_arquivo) {
         getline(arquivo, linha);               // Ignora a primeira linha (cabeçalho)
         while (getline(arquivo, linha)) {      // Lê cada linha do arquivo
             Dados d;                           // Cria um objeto da estrutura Dados
-            size_t pos = 0;                    // Posição do separador (vírgula)
-            pos = linha.find(";");             // Encontra a primeira vírgula
-            d.Cliente = linha.substr(0, pos);  // Extrai o nome do cliente
-            linha.erase(0, pos + 1);           // Remove o nome e a vírgula da linha
-            pos = linha.find(";");             // Encontra a segunda vírgula
-            d.CPF_CNPJ = linha.substr(0, pos); // Extrai o cpf ou cnpj do cliente
-            linha.erase(0, pos + 1);           // Remove o cpf ou cnpj e a vírgula da linha
-            pos = linha.find(";");             // Encontra a terceira vírgula
-            d.Titulo = linha.substr(0, pos);   // Extrai o titulo do cliente
-            linha.erase(0, pos + 1);           // Remove o titulo e a vírgula da linha
-            pos = linha.find(";");             // Encontra a quarta vírgula
-            d.Doc = linha.substr(0, pos);      // Extrai o Documento do cliente
-            linha.erase(0, pos + 1);           // Remove o Documento e a vírgula da linha
-            pos = linha.find(";");             // Encontra a quinta vírgula
-            d.Parc = linha.substr(0, pos);     // Extrai a parcela
-            linha.erase(0, pos + 1);           // Remove a parcela e a vírgula da linha
-            pos = linha.find(";");             // Encontra a sexta vírgula
-            d.Vlr = linha.substr(0, pos);      // Extrai o Valor
-            linha.erase(0, pos + 1);           // Remove o Valor e a vírgula da linha
-            pos = linha.find(";");             // Encontra a setima vírgula
-            d.Venc = linha.substr(0, pos);     // Extrai o Vencimento
-            linha.erase(0, pos + 1);           // Remove o Vencimento e a vírgula da linha
-            pos = linha.find(";");             // Encontra a oitava vírgula
-            d.cdTipoCondicao = linha.substr(0, pos); // Extrai o código do tipo de condição
-            linha.erase(0, pos + 1);                 // Remove o código e a vírgula da linha
-            dados.push_back(d);                      // Adiciona o objeto d ao vetor de dados
+            stringstream ss(linha);            // Cria um stringstream com a linha
+            string campo;                      // String para armazenar cada campo da linha
+            getline(ss, campo, sep);           // Lê o primeiro campo usando o separador
+            d.Cliente = trim(toupper(RemoveAccents(removerAspas(campo))));  // Atribui o campo ao nome do cliente sem aspas, acentos, espaços e em minúsculas
+            getline(ss, campo, sep);           // Lê o segundo campo usando o separador
+            d.CPF_CNPJ = campo;                // Atribui o campo ao cpf ou cnpj do cliente
+            getline(ss, campo, sep);           // Lê o terceiro campo usando o separador
+            d.Titulo = campo;                  // Atribui o campo ao titulo do cliente
+            getline(ss, campo, sep);           // Lê o quarto campo usando o separador
+            d.Doc = campo;                     // Atribui o campo ao Documento do cliente
+            getline(ss, campo, sep);           // Lê o quinto campo usando o separador
+            d.Parc = campo;                    // Atribui o campo à parcela
+            getline(ss, campo, sep);           // Lê o sexto campo usando o separador
+            d.Vlr = campo;                     // Atribui o campo ao Valor
+            getline(ss, campo, sep);           // Lê o sétimo campo usando o separador
+            d.Venc = campo;                    // Atribui o campo ao Vencimento
+            getline(ss, campo, sep);           // Lê o oitavo campo usando o separador
+            d.cdTipoCondicao = campo;          // Atribui o campo ao código do tipo de condição
+            dados.push_back(d);                // Adiciona o objeto d ao vetor de dados
         }
-        arquivo.close();                             // Fecha o arquivo
+        arquivo.close();                       // Fecha o arquivo
     }
-    else {                                                // Se o arquivo não foi aberto com sucesso
+    else {                                     // Se o arquivo não foi aberto com sucesso
         cout << "Erro ao abrir o arquivo " << nome_arquivo << endl; // Imprime uma mensagem de erro
     }
-    return dados;// Retorna o vetor de dados
+    return dados;                              // Retorna o vetor de dados
 }
+
 
 // Define uma função para mostrar os dados em formato de tabela
 void mostrar_tabela(vector<Dados> dados) {
@@ -98,9 +148,9 @@ void remover_AT(vector<Dados>& dados) {
 void remover_clientes(vector<Dados>& dados1, vector<Dados> dados2) {
     dados1.erase(remove_if(dados1.begin(), dados1.end(), [&dados2](Dados d1) {
         return any_of(dados2.begin(), dados2.end(), [d1](Dados d2) {
-            return d1.Cliente == d2.Cliente;     // Retorna verdadeiro se o nome do cliente for igual
-            });                                  // Retorna verdadeiro se algum elemento do segundo vetor satisfazer a condição
-        }), dados1.end());                       // Remove os elementos que satisfazem a condição
+            return trim(toupper(RemoveAccents(removerAspas(d1.Cliente)))) == trim(toupper(RemoveAccents(removerAspas(d2.Cliente))));     // Retorna verdadeiro se o nome do cliente sem aspas, acentos, espaços e em minúsculas for igual
+        });                                  // Retorna verdadeiro se algum elemento do segundo vetor satisfazer a condição
+    }), dados1.end());                       // Remove os elementos que satisfazem a condição
 }
 
 // Define uma função para criar um novo arquivo csv com a solução da operação
