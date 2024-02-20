@@ -17,21 +17,15 @@ using namespace std;
 
 // Funcao que realiza a leitura do arquivo readme que for especificado para instruir o usuario
 void leitura(){
-    ifstream md_file("example.md");      // Abre o arquivo .md para leitura
-    if (md_file.is_open()){              // Cria um arquivo temporário .txt para armazenar o conteúdo do .md
-        ofstream txt_file("temp.txt");
-        string line;
-        while (getline(md_file, line)) { // Lê cada linha do .md e escreve no .txt
-            txt_file << line << "\n";
-        }
-        // Fecha os arquivos
-        md_file.close();
-        txt_file.close();
-        system("type temp.txt");         // Executa o comando do cmd para imprimir o .txt
-        system("del temp.txt");          // Remove o arquivo temporário
-    } 
-    // Mostra uma mensagem de erro se o arquivo .md não for encontrado
-    else { cout << "Não foi possível abrir o arquivo .md\n"; }
+    // Abre o arquivo .txt para leitura
+    ifstream txt_file("temp.txt");
+    if (txt_file.is_open()) {
+        string line;                                              // Cria uma string para armazenar cada linha do txt
+        while (getline(txt_file, line)) { cout << line << "\n"; } // Lê cada linha do arquivo e imprime no cmd
+        txt_file.close();                                         // Fecha o arquivo
+    }
+    // Mostra uma mensagem de erro se o arquivo .txt não for encontrado
+    else { cout << "Não foi possível abrir o arquivo .txt\n"; }
 }
 
 // Define uma estrutura para armazenar os dados de cada linha do arquivo csv
@@ -201,45 +195,48 @@ void criar_csv(vector<Dados> dados, string nome_arquivo) {
 
 // Funcao somente para tornar a interacao com o software mais facil de entender
 void Style(){
-    cout << "--------------------------------------------------------------------" << endl;
+    cout << "----------------------------------------------------------------------------------" << endl;
 }
 
-// Função principal do programa
-int main() {
-    int action;                                   // Acao do usuario
+void LeitorCsv(){
     string nome_arquivo1;                         // Nome do primeiro arquivo csv
     string nome_arquivo2;                         // Nome do segundo arquivo csv
     string nome_arquivo3 = "solucao.csv";         // Nome do novo arquivo csv
     string caminho_arquivo3;                      // caminho que será salvo o novo arquivo
 
-    cout << "[1] - Iniciar Procedimento \n[2] Instrucoes \n-> ";  cin >> action;
+    cout << "Nome do Relatorio: ";           cin >> nome_arquivo1;
+    cout << "Nome da Lista: ";               cin >> nome_arquivo2;
+    cout << "Caminho do diretorio: ";        cin >> caminho_arquivo3;
     Style();
 
-    if (action == 1){
-        cout << "Nome do Relatorio: ";           cin >> nome_arquivo1;
-        cout << "Nome da Lista: ";               cin >> nome_arquivo2;
-        cout << "Caminho do diretorio: ";        cin >> caminho_arquivo3;
-        Style();
+    vector<Dados> dados1 = ler_csv(nome_arquivo1); // Lê o primeiro arquivo csv e armazena os dados em um vetor
+    vector<Dados> dados2 = ler_csv(nome_arquivo2); // Lê o segundo arquivo csv e armazena os dados em outro vetor
 
-        vector<Dados> dados1 = ler_csv(nome_arquivo1); // Lê o primeiro arquivo csv e armazena os dados em um vetor
-        vector<Dados> dados2 = ler_csv(nome_arquivo2); // Lê o segundo arquivo csv e armazena os dados em outro vetor
+    cout << "Dados do primeiro arquivo antes da operacao:\n"; // Imprime uma mensagem
+    mostrar_tabela(dados1);                                   // Mostra os dados do primeiro arquivo em formato de tabela
+    remover_AT(dados1);                                       // Remove as linhas onde a coluna cdTipoCondicao é 'AT'
+    remover_clientes(dados1, dados2);                         // Remove os clientes que estão no segundo arquivo do primeiro arquivo
+    Style();
 
-        cout << "Dados do primeiro arquivo antes da operacao:\n"; // Imprime uma mensagem
-        mostrar_tabela(dados1);                                   // Mostra os dados do primeiro arquivo em formato de tabela
-        remover_AT(dados1);                                       // Remove as linhas onde a coluna cdTipoCondicao é 'AT'
-        remover_clientes(dados1, dados2);                         // Remove os clientes que estão no segundo arquivo do primeiro arquivo
-        Style();
+    cout << "Dados do primeiro arquivo depois da operacao:\n"; // Imprime outra mensagem
+    mostrar_tabela(dados1);                                    // Mostra os dados do primeiro arquivo em formato de tabela
+    criar_csv(dados1, caminho_arquivo3 + "/" + nome_arquivo3); // Cria um novo arquivo csv com a solução da operação
+    Style();
 
-        cout << "Dados do primeiro arquivo depois da operacao:\n"; // Imprime outra mensagem
-        mostrar_tabela(dados1);                                    // Mostra os dados do primeiro arquivo em formato de tabela
-        criar_csv(dados1, caminho_arquivo3 + "/" + nome_arquivo3); // Cria um novo arquivo csv com a solução da operação
-        Style();
+    // Imprime uma mensagem de confirmação// Imprime uma mensagem de confirmação
+    cout << "Novo arquivo csv criado com sucesso: " << caminho_arquivo3 + "/" + nome_arquivo3 << endl;
+}
 
-        // Imprime uma mensagem de confirmação// Imprime uma mensagem de confirmação
-        cout << "Novo arquivo csv criado com sucesso: " << caminho_arquivo3 + "/" + nome_arquivo3 << endl;
-    } else if (action == 2){
-        leitura();    // Chamando a funcao que ira passar o tutorial para o usuario
-    } else { cout << "Acao invalida!" << endl;}
+// Função principal do programa
+int main() {
+    int action;                                   // Acao do usuario
+
+    cout << "[1] - Iniciar Procedimento \n[2] - Instrucoes \n-> ";  cin >> action;
+    Style();
+
+    if (action == 1){ LeitorCsv(); }            // Abrindo leitor de CSV
+    else if (action == 2){ leitura(); }         // Abrindo tutorial
+    else { cout << "Acao invalida!" << endl;}   // Imprimindo mensagem de erro
 
     system("pause");
     return 0; // Encerra o programa

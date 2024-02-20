@@ -1,0 +1,44 @@
+Instruções de Uso
+
+Extração dos Arquivos
+
+1. Extraia o primeiro arquivo em formato csv separado com ponto e virgula (;) e no formato UTF-8 com as seguintes colunas:
+    - Cliente
+    - CPF_CNPJ
+    - Titulo
+    - Documento
+    - Parcela
+    - Valor
+    - Vencimento
+    - CondPagamento/Condiçao de pagamento
+    - Telefone
+
+ Formatação dos Arquivos
+
+1. Feita a extração do primeiro arquivo, extraia o segundo arquivo no mesmo formato (csv UTF-8 separado com ponto e virgula ";")
+
+2. Abra ambos os arquivos e retire:
+    - acentos 
+    - aspas duplas nos nomes nos clientes 
+    - espaços no final e no inicio do nome
+
+3. Em seguida remova ou mova quaisquer colunas que estejam antes da coluna de clientes, para que fique no formato mais compreensivo, deixeo na ordem mensionada no primeiro passo.
+
+Leitura pelo software
+
+1. Abra o leitor e informe o caminho do primeiro arquivo csv, segue exemplo:
+    ```
+    c://caminho/do/arquivo/arquivo.csv
+    ```
+2. Da mesma  forma faça com o segundo arquivo
+
+3. Informe o nome e o caminho do arquivo solução, segue exemplo:
+    ```
+    Nome da Planilha resultante: exemplo.csv
+    Caminho do diretório: c://caminho/do/arquivo
+    ```
+5. Agora o leitor fará o trabalho e salvar o novo arquivo no diretório informado.
+
+Nota
+
+O leitor criará o arquivo resultante com o nome de solução, mas o mesmo pode ser renomeado posteriormente.

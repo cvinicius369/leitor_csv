@@ -40,24 +40,39 @@ Software para leitura, manipulação e edição de arquivos CSV
     - Valor
     - Vencimento
     - CondPagamento/Condiçao de pagamento
-2. Feita a extração do primeiro arquivo, extraia o segundo arquivo no mesmo formato (csv UTF-8 separado com ponto e virgula ";")
-3. Se necessário, edite-o para que a coluna de clientes seja a primeira, para que o leitor identifique
-4. Abra o leitor e informe o caminho do primeiro arquivo csv, segue exemplo:
+    - Telefone
+
+### Formatação dos Arquivos
+1. Feita a extração do primeiro arquivo, extraia o segundo arquivo no mesmo formato (csv UTF-8 separado com ponto e virgula ";")
+
+2. Abra ambos os arquivos e retire:
+    - acentos 
+    - aspas duplas nos nomes nos clientes 
+    - espaços no final e no inicio do nome
+
+3. Em seguida remova ou mova quaisquer colunas que estejam antes da coluna de clientes, para que fique no formato mais compreensivo, deixeo na ordem mensionada no primeiro passo.
+
+### Leitura pelo software
+1. Abra o leitor e informe o caminho do primeiro arquivo csv, segue exemplo:
     ```
     c://caminho/do/arquivo/arquivo.csv
     ```
-4. Da mesma  forma faça com o segundo arquivo
-5. Informe o nome e o caminho do arquivo solução, segue exemplo:
+2. Da mesma  forma faça com o segundo arquivo
+
+3. Informe o nome e o caminho do arquivo solução, segue exemplo:
     ```
     Nome da Planilha resultante: exemplo.csv
     Caminho do diretório: c://caminho/do/arquivo
     ```
-6. Agora o leitor fará o trabalho e salvar o novo arquivo no diretório informado.
+5. Agora o leitor fará o trabalho e salvar o novo arquivo no diretório informado.
+
+### Nota
+O leitor criará o arquivo resultante com o nome de solução, mas o mesmo pode ser renomeado posteriormente.
 
 ## Requisitos
-- Ambos os arquivos deverão ser impressos em CSV separado com ponto e virgula(;)
+- Ambos os arquivos deverão ser impressos em CSV separado com ponto e virgula(;) e compátivel com UTF-8.
 
-- A planilha não deve conter a data de registro antes da coluna de clientes
+- A planilha não deve conter outras colunas antes da coluna de clientes
 
 - A coluna de clientes deve sempre ser a primeira (recomenda-se que as demais também estejam em ordem)
 
@@ -69,7 +84,6 @@ Software para leitura, manipulação e edição de arquivos CSV
     ```
     c://caminho/do/arquivo/arquivo.csv
     ```
-- Os arquivos tem que ser csv, separados com ponto virgula e compátivel com UTF-8
 
 License
 Copyright © 2024, Caio Vinicius de Almeida Faguette. Released under the MIT License.
