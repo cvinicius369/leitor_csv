@@ -25,6 +25,7 @@ struct Dados {
     string Vlr;            // Valor da Parcela
     string Venc;           // Vencimento da parcela 
     string cdTipoCondicao; // Código do tipo de condição
+    string telefone;       // telefone principal
 };
 
 // Define uma função para remover os acentos de uma string
@@ -109,6 +110,8 @@ vector<Dados> ler_csv(string nome_arquivo) {
             d.Venc = campo;                    // Atribui o campo ao Vencimento
             getline(ss, campo, sep);           // Lê o oitavo campo usando o separador
             d.cdTipoCondicao = campo;          // Atribui o campo ao código do tipo de condição
+            getline(ss, campo, sep);           // lê o nono capo usando o separador
+            d.telefone = campo;                // atribui o campo ao telefone
             dados.push_back(d);                // Adiciona o objeto d ao vetor de dados
         }
         arquivo.close();                       // Fecha o arquivo
