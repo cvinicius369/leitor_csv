@@ -34,10 +34,10 @@ std::string RemoveAccents (std::string text) {
     std::string comAcentos = "ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç";
     std::string semAcentos = "AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc";
     for (int i = 0; i < comAcentos.length(); i++) {
-        size_t pos = text.find(comAcentos[i]); // Encontra a posição do caractere com acento na string
-        if (pos != std::string::npos) { // Verifica se a posição é válida
-            size_t pos2 = semAcentos.find(comAcentos[i]); // Encontra a posição do caractere sem acento na string
-            if (pos2 < semAcentos.length()) { // Verifica se a posição é válida
+        size_t pos = text.find(comAcentos[i]);                           // Encontra a posição do caractere com acento na string
+        if (pos != std::string::npos) {                                  // Verifica se a posição é válida
+            size_t pos2 = semAcentos.find(comAcentos[i]);                // Encontra a posição do caractere sem acento na string
+            if (pos2 < semAcentos.length()) {                            // Verifica se a posição é válida
                 text = text.replace(pos, 1, semAcentos.substr(pos2, 1)); // Substitui o caractere com acento pelo sem acento
             }
         }
@@ -53,33 +53,33 @@ std::string removerAspas (std::string text) {
         text = text.replace(pos, 1, "");  // Substitui a aspa por uma string vazia
         pos = text.find("\"");            // Encontra a posição da próxima aspa na string
     }
-    return text; // Retorna a string sem aspas
+    return text;                          // Retorna a string sem aspas
 }
 
 // Define uma função para remover os espaços em branco do início e do fim de uma string
 // Recebe uma string e retorna uma string sem os espaços em branco
 std::string trim (std::string text) {
     size_t start = text.find_first_not_of(" "); // Encontra a posição do primeiro caractere que não é espaço
-    size_t end = text.find_last_not_of(" "); // Encontra a posição do último caractere que não é espaço
+    size_t end = text.find_last_not_of(" ");    // Encontra a posição do último caractere que não é espaço
     return text.substr(start, end - start + 1); // Retorna a substring entre as posições encontradas
 }
 
 // Define uma função para converter todos os caracteres de uma string para maiúsculas
 // Recebe uma string e retorna uma string com todos os caracteres em maiúsculas
 std::string toupper (std::string text) {
-    for (char& c : text) { // Percorre cada caractere da string
-        c = std::toupper(c); // Converte o caractere para maiúscula
+    for (char& c : text) {     // Percorre cada caractere da string
+        c = std::toupper(c);   // Converte o caractere para maiúscula
     }
-    return text; // Retorna a string convertida
+    return text;               // Retorna a string convertida
 }
 
 // Define uma função para converter todos os caracteres de uma string para minúsculas
 // Recebe uma string e retorna uma string com todos os caracteres em minúsculas
 std::string tolower (std::string text) {
-    for (char& c : text) { // Percorre cada caractere da string
-        c = std::tolower(c); // Converte o caractere para minúscula
+    for (char& c : text) {    // Percorre cada caractere da string
+        c = std::tolower(c);  // Converte o caractere para minúscula
     }
-    return text; // Retorna a string convertida
+    return text;              // Retorna a string convertida
 }
 
 // Define uma função para ler um arquivo csv e retornar um vetor de dados
@@ -95,7 +95,8 @@ vector<Dados> ler_csv(string nome_arquivo) {
             stringstream ss(linha);            // Cria um stringstream com a linha
             string campo;                      // String para armazenar cada campo da linha
             getline(ss, campo, sep);           // Lê o primeiro campo usando o separador
-            d.Cliente = trim(toupper(RemoveAccents(removerAspas(campo))));  // Atribui o campo ao nome do cliente sem aspas, acentos, espaços e em minúsculas
+            // Atribui o campo ao nome do cliente sem aspas, acentos, espaços e em minúsculas
+            d.Cliente = trim(toupper(RemoveAccents(removerAspas(campo))));
             getline(ss, campo, sep);           // Lê o segundo campo usando o separador
             d.CPF_CNPJ = campo;                // Atribui o campo ao cpf ou cnpj do cliente
             getline(ss, campo, sep);           // Lê o terceiro campo usando o separador
@@ -116,10 +117,10 @@ vector<Dados> ler_csv(string nome_arquivo) {
         }
         arquivo.close();                       // Fecha o arquivo
     }
-    else {                                     // Se o arquivo não foi aberto com sucesso
+    else {                                                          // Se o arquivo não foi aberto com sucesso
         cout << "Erro ao abrir o arquivo " << nome_arquivo << endl; // Imprime uma mensagem de erro
     }
-    return dados;                              // Retorna o vetor de dados
+    return dados;                                                   // Retorna o vetor de dados
 }
 
 
@@ -182,7 +183,7 @@ void criar_csv(vector<Dados> dados, string nome_arquivo) {
 int main() {
     string nome_arquivo1;                 // Nome do primeiro arquivo csv
     string nome_arquivo2;                 // Nome do segundo arquivo csv
-    string nome_arquivo3 = "solucao.csv";                 // Nome do novo arquivo csv
+    string nome_arquivo3 = "solucao.csv"; // Nome do novo arquivo csv
     string caminho_arquivo3;              // caminho que será salvo o novo arquivo
 
     cout << "Nome do Relatorio: ";           cin >> nome_arquivo1;
@@ -193,9 +194,9 @@ int main() {
     vector<Dados> dados2 = ler_csv(nome_arquivo2); // Lê o segundo arquivo csv e armazena os dados em outro vetor
 
     cout << "Dados do primeiro arquivo antes da operacao:\n"; // Imprime uma mensagem
-    mostrar_tabela(dados1);           // Mostra os dados do primeiro arquivo em formato de tabela
-    remover_AT(dados1);               // Remove as linhas onde a coluna cdTipoCondicao é 'AT'
-    remover_clientes(dados1, dados2); // Remove os clientes que estão no segundo arquivo do primeiro arquivo
+    mostrar_tabela(dados1);                                   // Mostra os dados do primeiro arquivo em formato de tabela
+    remover_AT(dados1);                                       // Remove as linhas onde a coluna cdTipoCondicao é 'AT'
+    remover_clientes(dados1, dados2);                         // Remove os clientes que estão no segundo arquivo do primeiro arquivo
         
     cout << "Dados do primeiro arquivo depois da operacao:\n"; // Imprime outra mensagem
     mostrar_tabela(dados1);                                    // Mostra os dados do primeiro arquivo em formato de tabela
