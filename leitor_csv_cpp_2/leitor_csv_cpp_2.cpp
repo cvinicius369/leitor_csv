@@ -15,6 +15,25 @@
 #include <sstream>
 using namespace std;
 
+// Funcao que realiza a leitura do arquivo readme que for especificado para instruir o usuario
+void leitura(){
+    ifstream md_file("example.md");      // Abre o arquivo .md para leitura
+    if (md_file.is_open()){              // Cria um arquivo temporário .txt para armazenar o conteúdo do .md
+        ofstream txt_file("temp.txt");
+        string line;
+        while (getline(md_file, line)) { // Lê cada linha do .md e escreve no .txt
+            txt_file << line << "\n";
+        }
+        // Fecha os arquivos
+        md_file.close();
+        txt_file.close();
+        system("type temp.txt");         // Executa o comando do cmd para imprimir o .txt
+        system("del temp.txt");          // Remove o arquivo temporário
+    } 
+    // Mostra uma mensagem de erro se o arquivo .md não for encontrado
+    else { cout << "Não foi possível abrir o arquivo .md\n"; }
+}
+
 // Define uma estrutura para armazenar os dados de cada linha do arquivo csv
 struct Dados {
     string Cliente;        // Nome do cliente
@@ -48,38 +67,38 @@ std::string RemoveAccents (std::string text) {
 // Define uma função para remover as aspas de uma string
 // Recebe uma string com aspas e retorna uma string sem aspas
 std::string removerAspas (std::string text) {
-    size_t pos = text.find("\"");         // Encontra a posição da primeira aspa na string
-    while (pos != std::string::npos) {    // Enquanto houver aspas na string
-        text = text.replace(pos, 1, "");  // Substitui a aspa por uma string vazia
-        pos = text.find("\"");            // Encontra a posição da próxima aspa na string
+    size_t pos = text.find("\"");                 // Encontra a posição da primeira aspa na string
+    while (pos != std::string::npos) {            // Enquanto houver aspas na string
+        text = text.replace(pos, 1, "");          // Substitui a aspa por uma string vazia
+        pos = text.find("\"");                    // Encontra a posição da próxima aspa na string
     }
-    return text;                          // Retorna a string sem aspas
+    return text;                                  // Retorna a string sem aspas
 }
 
 // Define uma função para remover os espaços em branco do início e do fim de uma string
 // Recebe uma string e retorna uma string sem os espaços em branco
 std::string trim (std::string text) {
-    size_t start = text.find_first_not_of(" "); // Encontra a posição do primeiro caractere que não é espaço
-    size_t end = text.find_last_not_of(" ");    // Encontra a posição do último caractere que não é espaço
-    return text.substr(start, end - start + 1); // Retorna a substring entre as posições encontradas
+    size_t start = text.find_first_not_of(" ");         // Encontra a posição do primeiro caractere que não é espaço
+    size_t end = text.find_last_not_of(" ");            // Encontra a posição do último caractere que não é espaço
+    return text.substr(start, end - start + 1);         // Retorna a substring entre as posições encontradas
 }
 
 // Define uma função para converter todos os caracteres de uma string para maiúsculas
 // Recebe uma string e retorna uma string com todos os caracteres em maiúsculas
 std::string toupper (std::string text) {
-    for (char& c : text) {     // Percorre cada caractere da string
-        c = std::toupper(c);   // Converte o caractere para maiúscula
+    for (char& c : text) {             // Percorre cada caractere da string
+        c = std::toupper(c);           // Converte o caractere para maiúscula
     }
-    return text;               // Retorna a string convertida
+    return text;                       // Retorna a string convertida
 }
 
 // Define uma função para converter todos os caracteres de uma string para minúsculas
 // Recebe uma string e retorna uma string com todos os caracteres em minúsculas
 std::string tolower (std::string text) {
-    for (char& c : text) {    // Percorre cada caractere da string
-        c = std::tolower(c);  // Converte o caractere para minúscula
+    for (char& c : text) {            // Percorre cada caractere da string
+        c = std::tolower(c);          // Converte o caractere para minúscula
     }
-    return text;              // Retorna a string convertida
+    return text;                      // Retorna a string convertida
 }
 
 // Define uma função para ler um arquivo csv e retornar um vetor de dados
@@ -144,8 +163,8 @@ void mostrar_tabela(vector<Dados> dados) {
 // Define uma função para remover as linhas onde a coluna cdTipoCondicao é 'AT'
 void remover_AT(vector<Dados>& dados) {
     dados.erase(remove_if(dados.begin(), dados.end(), [](Dados d) {
-        return d.cdTipoCondicao == "AT";     // Retorna verdadeiro se o código do tipo de condição for 'AT'
-        }), dados.end());                    // Remove os elementos que satisfazem a condição
+        return d.cdTipoCondicao == "AT";             // Retorna verdadeiro se o código do tipo de condição for 'AT'
+        }), dados.end());                            // Remove os elementos que satisfazem a condição
 }
 
 // Define uma função para remover os clientes que estão no segundo arquivo do primeiro arquivo
@@ -153,8 +172,8 @@ void remover_clientes(vector<Dados>& dados1, vector<Dados> dados2) {
     dados1.erase(remove_if(dados1.begin(), dados1.end(), [&dados2](Dados d1) {
         return any_of(dados2.begin(), dados2.end(), [d1](Dados d2) {
             return trim(toupper(RemoveAccents(removerAspas(d1.Cliente)))) == trim(toupper(RemoveAccents(removerAspas(d2.Cliente))));     // Retorna verdadeiro se o nome do cliente sem aspas, acentos, espaços e em minúsculas for igual
-        });                                  // Retorna verdadeiro se algum elemento do segundo vetor satisfazer a condição
-    }), dados1.end());                       // Remove os elementos que satisfazem a condição
+        });                                          // Retorna verdadeiro se algum elemento do segundo vetor satisfazer a condição
+    }), dados1.end());                               // Remove os elementos que satisfazem a condição
 }
 
 // Define uma função para criar um novo arquivo csv com a solução da operação
@@ -179,31 +198,49 @@ void criar_csv(vector<Dados> dados, string nome_arquivo) {
         cout << "Erro ao criar o arquivo " << nome_arquivo << endl; // Imprime uma mensagem de erro
     }
 }
+
+// Funcao somente para tornar a interacao com o software mais facil de entender
+void Style(){
+    cout << "--------------------------------------------------------------------" << endl;
+}
+
 // Função principal do programa
 int main() {
-    string nome_arquivo1;                 // Nome do primeiro arquivo csv
-    string nome_arquivo2;                 // Nome do segundo arquivo csv
-    string nome_arquivo3 = "solucao.csv"; // Nome do novo arquivo csv
-    string caminho_arquivo3;              // caminho que será salvo o novo arquivo
+    int action;                                   // Acao do usuario
+    string nome_arquivo1;                         // Nome do primeiro arquivo csv
+    string nome_arquivo2;                         // Nome do segundo arquivo csv
+    string nome_arquivo3 = "solucao.csv";         // Nome do novo arquivo csv
+    string caminho_arquivo3;                      // caminho que será salvo o novo arquivo
 
-    cout << "Nome do Relatorio: ";           cin >> nome_arquivo1;
-    cout << "Nome da Lista: ";               cin >> nome_arquivo2;
-    cout << "Caminho do diretorio: ";        cin >> caminho_arquivo3;
+    cout << "[1] - Iniciar Procedimento \n[2] Instrucoes \n-> ";  cin >> action;
+    Style();
 
-    vector<Dados> dados1 = ler_csv(nome_arquivo1); // Lê o primeiro arquivo csv e armazena os dados em um vetor
-    vector<Dados> dados2 = ler_csv(nome_arquivo2); // Lê o segundo arquivo csv e armazena os dados em outro vetor
+    if (action == 1){
+        cout << "Nome do Relatorio: ";           cin >> nome_arquivo1;
+        cout << "Nome da Lista: ";               cin >> nome_arquivo2;
+        cout << "Caminho do diretorio: ";        cin >> caminho_arquivo3;
+        Style();
 
-    cout << "Dados do primeiro arquivo antes da operacao:\n"; // Imprime uma mensagem
-    mostrar_tabela(dados1);                                   // Mostra os dados do primeiro arquivo em formato de tabela
-    remover_AT(dados1);                                       // Remove as linhas onde a coluna cdTipoCondicao é 'AT'
-    remover_clientes(dados1, dados2);                         // Remove os clientes que estão no segundo arquivo do primeiro arquivo
-        
-    cout << "Dados do primeiro arquivo depois da operacao:\n"; // Imprime outra mensagem
-    mostrar_tabela(dados1);                                    // Mostra os dados do primeiro arquivo em formato de tabela
-    criar_csv(dados1, caminho_arquivo3 + "/" + nome_arquivo3); // Cria um novo arquivo csv com a solução da operação
+        vector<Dados> dados1 = ler_csv(nome_arquivo1); // Lê o primeiro arquivo csv e armazena os dados em um vetor
+        vector<Dados> dados2 = ler_csv(nome_arquivo2); // Lê o segundo arquivo csv e armazena os dados em outro vetor
 
-    // Imprime uma mensagem de confirmação// Imprime uma mensagem de confirmação
-    cout << "Novo arquivo csv criado com sucesso: " << caminho_arquivo3 + "/" + nome_arquivo3 << endl;
+        cout << "Dados do primeiro arquivo antes da operacao:\n"; // Imprime uma mensagem
+        mostrar_tabela(dados1);                                   // Mostra os dados do primeiro arquivo em formato de tabela
+        remover_AT(dados1);                                       // Remove as linhas onde a coluna cdTipoCondicao é 'AT'
+        remover_clientes(dados1, dados2);                         // Remove os clientes que estão no segundo arquivo do primeiro arquivo
+        Style();
+
+        cout << "Dados do primeiro arquivo depois da operacao:\n"; // Imprime outra mensagem
+        mostrar_tabela(dados1);                                    // Mostra os dados do primeiro arquivo em formato de tabela
+        criar_csv(dados1, caminho_arquivo3 + "/" + nome_arquivo3); // Cria um novo arquivo csv com a solução da operação
+        Style();
+
+        // Imprime uma mensagem de confirmação// Imprime uma mensagem de confirmação
+        cout << "Novo arquivo csv criado com sucesso: " << caminho_arquivo3 + "/" + nome_arquivo3 << endl;
+    } else if (action == 2){
+        leitura();    // Chamando a funcao que ira passar o tutorial para o usuario
+    } else { cout << "Acao invalida!" << endl;}
+
     system("pause");
     return 0; // Encerra o programa
 }
