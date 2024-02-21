@@ -6,6 +6,7 @@
         O projeto foi feito para a realização de atividade extencionária da faculdade onde o objetivo
         é desenvolver um software para uma instituição a fim de auxiliar as atividades da empresa.
 */
+
 // Inclui as bibliotecas necessárias
 #include <iostream>
 #include <fstream>
@@ -143,11 +144,11 @@ void mostrar_tabela(vector<Dados> dados) {
     for (auto d : dados) {                                                   // Percorre o vetor de dados
         cout << d.Cliente << "\t"                                            // Imprime os dados
             << d.CPF_CNPJ << "\t"
-            << d.Titulo << "\t"
-            << d.Doc << "\t"
-            << d.Parc << "\t"
-            << d.Vlr << "\t"
-            << d.Venc << "\t"
+            << d.Titulo   << "\t"
+            << d.Doc      << "\t"
+            << d.Parc     << "\t"
+            << d.Vlr      << "\t"
+            << d.Venc     << "\t"
             << d.cdTipoCondicao << "\t";
 
         cout << "\n";                                                         // Quebra a linha
@@ -165,7 +166,8 @@ void remover_AT(vector<Dados>& dados) {
 void remover_clientes(vector<Dados>& dados1, vector<Dados> dados2) {
     dados1.erase(remove_if(dados1.begin(), dados1.end(), [&dados2](Dados d1) {
         return any_of(dados2.begin(), dados2.end(), [d1](Dados d2) {
-            return trim(toupper(RemoveAccents(removerAspas(d1.Cliente)))) == trim(toupper(RemoveAccents(removerAspas(d2.Cliente))));     // Retorna verdadeiro se o nome do cliente sem aspas, acentos, espaços e em minúsculas for igual
+            // Retorna verdadeiro se o nome do cliente sem aspas, acentos, espaços e em minúsculas for igual
+            return trim(toupper(RemoveAccents(removerAspas(d1.Cliente)))) == trim(toupper(RemoveAccents(removerAspas(d2.Cliente))));
         });                                          // Retorna verdadeiro se algum elemento do segundo vetor satisfazer a condição
     }), dados1.end());                               // Remove os elementos que satisfazem a condição
 }
@@ -178,12 +180,13 @@ void criar_csv(vector<Dados> dados, string nome_arquivo) {
         for (auto d : dados) {                                                                  // Percorre o vetor de dados
             arquivo << d.Cliente << ";"
                 << d.CPF_CNPJ << ";"
-                << d.Titulo << ";"
-                << d.Doc << ";"
-                << d.Parc << ";"
-                << d.Vlr << ";"
-                << d.Venc << ";"
-                << d.cdTipoCondicao << ";";
+                << d.Titulo   << ";"
+                << d.Doc      << ";"
+                << d.Parc     << ";"
+                << d.Vlr      << ";"
+                << d.Venc     << ";"
+                << d.cdTipoCondicao << ";"
+                << d.telefone << ";";
             arquivo << "\n"; // Quebra a linha
         }
         arquivo.close();     // Fecha o arquivo
@@ -231,12 +234,13 @@ void LeitorCsv(){
 int main() {
     int action;                                   // Acao do usuario
 
-    cout << "[1] - Iniciar Procedimento \n[2] - Instrucoes \n-> ";  cin >> action;
+    cout << "[1] - Iniciar Procedimento \n[2] - Instrucoes \n[3] - Sair \n-> ";  cin >> action;
     Style();
 
-    if (action == 1){ LeitorCsv(); }            // Abrindo leitor de CSV
-    else if (action == 2){ leitura(); }         // Abrindo tutorial
-    else { cout << "Acao invalida!" << endl;}   // Imprimindo mensagem de erro
+    if (action == 1){ LeitorCsv(); }                             // Abrindo leitor de CSV
+    else if (action == 2){ leitura(); }                          // Abrindo tutorial
+    else if (action == 3) { cout << "Saindo . . . " << endl; }   // Encerrando programa
+    else { cout << "Acao invalida!" << endl;}                    // Imprimindo mensagem de erro
 
     system("pause");
     return 0; // Encerra o programa
