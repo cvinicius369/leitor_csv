@@ -174,19 +174,15 @@ void remover_clientes(vector<Dados>& dados1, vector<Dados> dados2) {
 
 // Define uma função para criar um novo arquivo csv com a solução da operação
 void criar_csv(vector<Dados> dados, string nome_arquivo) {
-    ofstream arquivo(nome_arquivo);                                                             // Abre o arquivo para escrita
-    if (arquivo.is_open()) {                                                                    // Verifica se o arquivo foi aberto com sucesso
-        arquivo << "Nome;CPF_CNPJ;Titulo;Documento;Parcela;Valor;Vencimento;cdTipoCondicao\n";  // Escreve o cabeçalho do arquivo
-        for (auto d : dados) {                                                                  // Percorre o vetor de dados
-            arquivo << d.Cliente << ";"
-                << d.CPF_CNPJ << ";"
-                << d.Titulo   << ";"
-                << d.Doc      << ";"
-                << d.Parc     << ";"
-                << d.Vlr      << ";"
-                << d.Venc     << ";"
-                << d.cdTipoCondicao << ";"
-                << d.telefone << ";";
+    ofstream arquivo(nome_arquivo);                                                                      // Abre o arquivo para escrita
+    if (arquivo.is_open()) {                                                                             // Verifica se o arquivo foi aberto com sucesso
+        arquivo << "Nome;CPF_CNPJ;Titulo;Documento;Parcela;Valor;Vencimento;cdTipoCondicao;Telefone\n";  // Escreve o cabeçalho do arquivo
+        for (auto d : dados) {                                                                           // Percorre o vetor de dados
+            arquivo << d.Cliente << ";" << d.CPF_CNPJ << ";"
+                    << d.Titulo  << ";" << d.Doc      << ";"
+                    << d.Parc    << ";" << d.Vlr      << ";"
+                    << d.Venc    << ";" << d.cdTipoCondicao << ";"
+                    << d.telefone << ";";
             arquivo << "\n"; // Quebra a linha
         }
         arquivo.close();     // Fecha o arquivo
