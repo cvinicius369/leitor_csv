@@ -8,7 +8,7 @@
 */
 
 // Inclui as bibliotecas necessárias
-#include <iostream>
+#include <iostream> 
 #include <fstream>
 #include <string>
 #include <vector>
@@ -143,14 +143,8 @@ void mostrar_tabela(vector<Dados> dados) {
     cout << "Nome\tCpfCnpj\tTitulo\tDoc\tParc\tVlr\tVenc\tcdTipoCondicao\n"; // Imprime o cabeçalho da tabela
     for (auto d : dados) {                                                   // Percorre o vetor de dados
         cout << d.Cliente << "\t"                                            // Imprime os dados
-            << d.CPF_CNPJ << "\t"
-            << d.Titulo   << "\t"
-            << d.Doc      << "\t"
-            << d.Parc     << "\t"
-            << d.Vlr      << "\t"
-            << d.Venc     << "\t"
-            << d.cdTipoCondicao << "\t";
-
+            << d.CPF_CNPJ << "\t" << d.Titulo   << "\t" << d.Doc      << "\t"
+            << d.Parc     << "\t" << d.Vlr      << "\t" << d.Venc     << "\t" << d.cdTipoCondicao << "\t";
         cout << "\n";                                                         // Quebra a linha
     }
 }
@@ -178,11 +172,8 @@ void criar_csv(vector<Dados> dados, string nome_arquivo) {
     if (arquivo.is_open()) {                                                                             // Verifica se o arquivo foi aberto com sucesso
         arquivo << "Nome;CPF_CNPJ;Titulo;Documento;Parcela;Valor;Vencimento;cdTipoCondicao;Telefone\n";  // Escreve o cabeçalho do arquivo
         for (auto d : dados) {                                                                           // Percorre o vetor de dados
-            arquivo << d.Cliente << ";" << d.CPF_CNPJ << ";"
-                    << d.Titulo  << ";" << d.Doc      << ";"
-                    << d.Parc    << ";" << d.Vlr      << ";"
-                    << d.Venc    << ";" << d.cdTipoCondicao << ";"
-                    << d.telefone << ";";
+            arquivo << d.Cliente << ";" << d.CPF_CNPJ << ";" << d.Titulo  << ";" << d.Doc      << ";"
+                    << d.Parc    << ";" << d.Vlr      << ";" << d.Venc    << ";" << d.cdTipoCondicao << ";" << d.telefone << ";";
             arquivo << "\n"; // Quebra a linha
         }
         arquivo.close();     // Fecha o arquivo
@@ -223,15 +214,13 @@ void LeitorCsv(){
     Style();
 
     // Imprime uma mensagem de confirmação// Imprime uma mensagem de confirmação
-    cout << "Novo arquivo csv criado com sucesso: " << caminho_arquivo3 + "/" + nome_arquivo3 << endl;
+    cout << "Novo arquivo csv criado com sucesso: " << caminho_arquivo3 + "/" + nome_arquivo3 << endl; Style();
 }
 
 // Função principal do programa
 int main() {
     int action;                                   // Acao do usuario
-
-    cout << "[1] - Iniciar Procedimento \n[2] - Instrucoes \n[3] - Sair \n-> ";  cin >> action;
-    Style();
+    cout << "[1] - Iniciar Procedimento \n[2] - Instrucoes \n[3] - Sair \n-> ";  cin >> action; Style();
 
     if (action == 1){ LeitorCsv(); }                             // Abrindo leitor de CSV
     else if (action == 2){ leitura(); }                          // Abrindo tutorial
