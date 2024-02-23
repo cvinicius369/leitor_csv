@@ -143,8 +143,8 @@ void mostrar_tabela(vector<Dados> dados) {
     cout << "Nome\tCpfCnpj\tTitulo\tDoc\tParc\tVlr\tVenc\tcdTipoCondicao\n"; // Imprime o cabeçalho da tabela
     for (auto d : dados) {                                                   // Percorre o vetor de dados
         cout << d.Cliente << "\t"                                            // Imprime os dados
-            << d.CPF_CNPJ << "\t" << d.Titulo   << "\t" << d.Doc      << "\t"
-            << d.Parc     << "\t" << d.Vlr      << "\t" << d.Venc     << "\t" << d.cdTipoCondicao << "\t";
+            << d.CPF_CNPJ << "\t" << d.Titulo         << "\t" << d.Doc << "\t" << d.Parc << "\t" << d.Vlr << "\t" 
+            << d.Venc     << "\t" << d.cdTipoCondicao << "\t";
         cout << "\n";                                                         // Quebra a linha
     }
 }
