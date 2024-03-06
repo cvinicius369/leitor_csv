@@ -112,11 +112,14 @@ vector<Dados> ler_csv(string nome_arquivo) {
             // Atribui o campo ao nome do cliente sem aspas, acentos, espaços e em minúsculas
             d.Cliente = trim(toupper(RemoveAccents(removerAspas(campo))));
             getline(ss, campo, sep);           // Lê o segundo campo usando o separador
-            d.CPF_CNPJ = campo;                // Atribui o campo ao cpf ou cnpj do cliente
-            getline(ss, campo, sep);           // Lê o terceiro campo usando o separador
+            size_t pos = campo.find("CPF: ");
+            if (pos != string::npos) { campo.erase(pos, 5); /* Remove "CPF: "*/ }
+            d.CPF_CNPJ = campo; getline(ss, campo, sep);
             d.Titulo = campo;                  // Atribui o campo ao titulo do cliente
             getline(ss, campo, sep);           // Lê o quarto campo usando o separador
-            d.Doc = campo;                     // Atribui o campo ao Documento do cliente
+            size_t pos1 = campo.find("CT.");
+            if (pos1 != string::npos) { campo.erase(pos1, 3); /* Remove "CPF: "*/ }
+            d.Doc = campo;
             getline(ss, campo, sep);           // Lê o quinto campo usando o separador
             d.Parc = campo;                    // Atribui o campo à parcela
             getline(ss, campo, sep);           // Lê o sexto campo usando o separador
@@ -161,11 +164,10 @@ void remover_clientes(vector<Dados>& dados1, vector<Dados> dados2) {
     dados1.erase(remove_if(dados1.begin(), dados1.end(), [&dados2](Dados d1) {
         return any_of(dados2.begin(), dados2.end(), [d1](Dados d2) {
             // Retorna verdadeiro se o nome do cliente sem aspas, acentos, espaços e em minúsculas for igual
-            return trim(toupper(RemoveAccents(removerAspas(d1.Cliente)))) == trim(toupper(RemoveAccents(removerAspas(d2.Cliente))));
+            return d1.CPF_CNPJ == d2.CPF_CNPJ;
         });                                          // Retorna verdadeiro se algum elemento do segundo vetor satisfazer a condição
     }), dados1.end());                               // Remove os elementos que satisfazem a condição
 }
-
 // Define uma função para criar um novo arquivo csv com a solução da operação
 void criar_csv(vector<Dados> dados, string nome_arquivo) {
     ofstream arquivo(nome_arquivo);                                                                      // Abre o arquivo para escrita
