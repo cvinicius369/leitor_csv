@@ -233,3 +233,11 @@ int main() {
     return 0; // Encerra o programa
 }
 // Copyright © 2024, Caio Vinicius de Almeida Faguette
+
+/*
+    Commands{
+        - cd leitor_csv_cpp_2
+        - g++ leitor_csv.cpp -o LCC2
+        - ./LCC2
+    }
+*/
