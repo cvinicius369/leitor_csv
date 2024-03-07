@@ -236,8 +236,8 @@ int main() {
 
 /*
     Commands{
-        - cd leitor_csv_cpp_2
-        - g++ leitor_csv.cpp -o LCC2
-        - ./LCC2
+        cd leitor_csv_cpp_2
+        g++ leitor_csv.cpp -o LCC2
+        ./LCC2
     }
 */
