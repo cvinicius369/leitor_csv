@@ -1,8 +1,11 @@
 # Leitor de CSV
 
-Software para leitura, manipulação e edição de arquivos CSV
+Software para leitura, manipulação e edição de arquivos CSV. Utiliza: 
+
+<img src="https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=blue&color=black"/><img src="https://img.shields.io/badge/Csharp-00599C?style=for-the-badge&logo=csharp&logoColor=purple&color=black"/><img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=641f5e&color=black"/><img loading="lazy" src="https://img.shields.io/badge/GNU%20Bash-4EAA25?style=for-the-badge&logo=GNU%20Bash&logoColor=green&color=black">
 
 ## Funcionamento
+
 1. O software lê o primeiro arquivo, identifica colunas especificas, são elas:
     - Cliente:
         - Nome completo do cliente
