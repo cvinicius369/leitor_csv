@@ -7,22 +7,14 @@ Software para leitura, manipulação e edição de arquivos CSV. Utiliza:
 ## Funcionamento
 
 1. O software lê o primeiro arquivo, identifica colunas especificas, são elas:
-    - Cliente:
-        - Nome completo do cliente
-    - CPF_CNPJ:
-        - CPF ou CNPJ
-    - Titulo:
-        - Titulo/documento de identificação do contrato
-    - Doc:
-        - Documento do contrato
-    - Parc:
-        - Parcela
-    - Vlr:
-        - Valor da parcela
-    - Venc:
-        - Vencimento da parcela
-    - cdTipoCondicao:
-        - Condiçao de pagamento
+    - Cliente: Nome completo do cliente
+    - CPF_CNPJ: CPF ou CNPJ
+    - Titulo: Titulo/documento de identificação do contrato
+    - Doc: Documento do contrato
+    - Parc: Parcela
+    - Vlr: Valor da parcela
+    - Venc: Vencimento da parcela
+    - cdTipoCondicao: Condiçao de pagamento
 
 2. Após realizada a leitura e identificação das colunas, o software cria uma tabela no CMD para melhor visualização dos dados
 
@@ -34,7 +26,7 @@ Software para leitura, manipulação e edição de arquivos CSV. Utiliza:
 
 ## Instruções de Uso
 ### Extração dos Arquivos
-1. Extraia o primeiro arquivo em formato csv separado com ponto e virgula (;) e no formato UTF-8 com as seguintes colunas:
+1. Extraia o primeiro arquivo em formato csv separado com ponto e virgula (;) e no formato UTF-8 (ou no formato automatico do computador) com as seguintes colunas:
     - Cliente
     - CPF_CNPJ
     - Titulo
