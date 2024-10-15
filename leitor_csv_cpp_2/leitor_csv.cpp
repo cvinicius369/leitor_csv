@@ -15,34 +15,10 @@
 #include <sstream>
 
 using namespace std;
-
-// Função que realiza a leitura do arquivo readme especificado para instruir o usuário
-void leitura() {
-    ifstream txt_file("temp.txt");
-    if (txt_file.is_open()) {
-        string line;
-        while (getline(txt_file, line)) {
-            cout << line << "\n";
-        }
-        txt_file.close();
-    } else {
-        cout << "Não foi possível abrir o arquivo .txt\n";
-    }
-}
-
-// Estrutura para armazenar os dados de cada linha do arquivo csv
 struct Dados {
-    string Cliente;
-    string CPF_CNPJ;
-    string Titulo;
-    string Doc;
-    string Parc;
-    string Vlr;
-    string Venc;
-    string cdTipoCondicao;
-    string telefone;
+    string Cliente; string CPF_CNPJ; string Titulo; string Doc; string Parc; 
+    string Vlr; string Venc; string cdTipoCondicao; string telefone;
 };
-
 // Função para remover os acentos de uma string
 string RemoveAccents(const string& text) {
     const string comAcentos = "ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç";
@@ -50,101 +26,52 @@ string RemoveAccents(const string& text) {
     string result = text;
     for (size_t i = 0; i < comAcentos.size(); ++i) {
         size_t pos;
-        while ((pos = result.find(comAcentos[i])) != string::npos) {
-            result.replace(pos, 1, 1, semAcentos[i]);
-        }
+        while ((pos = result.find(comAcentos[i])) != string::npos) { result.replace(pos, 1, 1, semAcentos[i]); }
     }
     return result;
 }
-
 // Função para remover as aspas de uma string
 string removerAspas(const string& text) {
-    string result = text;
-    size_t pos;
-    while ((pos = result.find("\"")) != string::npos) {
-        result.erase(pos, 1);
-    }
+    string result = text; size_t pos;
+    while ((pos = result.find("\"")) != string::npos) { result.erase(pos, 1); }
     return result;
 }
-
 // Função para remover espaços em branco do início e do fim de uma string
 string trim(const string& text) {
-    size_t start = text.find_first_not_of(" ");
-    size_t end = text.find_last_not_of(" ");
+    size_t start = text.find_first_not_of(" "); size_t end = text.find_last_not_of(" ");
     return (start == string::npos || end == string::npos) ? "" : text.substr(start, end - start + 1);
 }
-
 // Função para converter todos os caracteres de uma string para maiúsculas
 string to_upper(const string& text) {
-    string result = text;
-    transform(result.begin(), result.end(), result.begin(), ::toupper);
-    return result;
+    string result = text; transform(result.begin(), result.end(), result.begin(), ::toupper); return result;
 }
-
 // Função para converter todos os caracteres de uma string para minúsculas
 string to_lower(const string& text) {
-    string result = text;
-    transform(result.begin(), result.end(), result.begin(), ::tolower);
-    return result;
+    string result = text; transform(result.begin(), result.end(), result.begin(), ::tolower); return result;
 }
 
 // Função para ler um arquivo csv e retornar um vetor de dados
 vector<Dados> ler_csv(const string& nome_arquivo) {
-    const char sep = ';';
-    vector<Dados> dados;
-    ifstream arquivo(nome_arquivo);
+    const char sep = ';'; vector<Dados> dados; ifstream arquivo(nome_arquivo);
     if (arquivo.is_open()) {
         string linha;
         getline(arquivo, linha); // Ignora a primeira linha (cabeçalho)
         while (getline(arquivo, linha)) {
-            Dados d;
-            stringstream ss(linha);
-            string campo;
-
-            getline(ss, campo, sep);
-            d.Cliente = trim(to_upper(RemoveAccents(removerAspas(campo))));
-
-            getline(ss, campo, sep);
+            Dados d; stringstream ss(linha); string campo; getline(ss, campo, sep);
+            d.Cliente = trim(to_upper(RemoveAccents(removerAspas(campo)))); getline(ss, campo, sep);
             size_t pos = campo.find("CPF: ");
-            if (pos != string::npos) {
-                campo.erase(pos, 5); // Remove "CPF: "
-            }
-            d.CPF_CNPJ = campo;
-
-            getline(ss, campo, sep);
-            d.Titulo = campo;
-
-            getline(ss, campo, sep);
-            pos = campo.find("CT.");
-            if (pos != string::npos) {
-                campo.erase(pos, 3); // Remove "CT."
-            }
-            d.Doc = campo;
-
-            getline(ss, campo, sep);
-            d.Parc = campo;
-
-            getline(ss, campo, sep);
-            d.Vlr = campo;
-
-            getline(ss, campo, sep);
-            d.Venc = campo;
-
-            getline(ss, campo, sep);
-            d.cdTipoCondicao = campo;
-
-            getline(ss, campo, sep);
-            d.telefone = campo;
-
-            dados.push_back(d);
-        }
-        arquivo.close();
-    } else {
-        cout << "Erro ao abrir o arquivo " << nome_arquivo << endl;
-    }
+            if (pos != string::npos) { campo.erase(pos, 5);/* Romove o CPF */ }
+            d.CPF_CNPJ = campo; getline(ss, campo, sep); d.Titulo = campo; getline(ss, campo, sep);
+            pos = campo.find("CT."); if (pos != string::npos) { campo.erase(pos, 3); /* Remove CT */ }
+            d.Doc = campo; getline(ss, campo, sep);
+            d.Parc = campo; getline(ss, campo, sep); d.Vlr = campo; getline(ss, campo, sep);
+            d.Venc = campo; getline(ss, campo, sep);
+            d.cdTipoCondicao = campo; getline(ss, campo, sep);
+            d.telefone = campo; dados.push_back(d);
+        } arquivo.close();
+    } else { cout << "Erro ao abrir o arquivo " << nome_arquivo << endl; }
     return dados;
 }
-
 // Função para mostrar os dados em formato de tabela
 void mostrar_tabela(const vector<Dados>& dados) {
     cout << "Nome\tCpfCnpj\tTitulo\tDoc\tParc\tVlr\tVenc\tcdTipoCondicao\n";
@@ -153,23 +80,16 @@ void mostrar_tabela(const vector<Dados>& dados) {
              << d.Parc << "\t" << d.Vlr << "\t" << d.Venc << "\t" << d.cdTipoCondicao << "\n";
     }
 }
-
 // Função para remover as linhas onde a coluna cdTipoCondicao é 'AT'
 void remover_AT(vector<Dados>& dados) {
-    dados.erase(remove_if(dados.begin(), dados.end(), [](const Dados& d) {
-        return d.cdTipoCondicao == "AT";
-    }), dados.end());
+    dados.erase(remove_if(dados.begin(), dados.end(), [](const Dados& d) { return d.cdTipoCondicao == "AT"; }), dados.end());
 }
-
 // Função para remover os clientes que estão no segundo arquivo do primeiro arquivo
 void remover_clientes(vector<Dados>& dados1, const vector<Dados>& dados2) {
     dados1.erase(remove_if(dados1.begin(), dados1.end(), [&dados2](const Dados& d1) {
-        return any_of(dados2.begin(), dados2.end(), [&d1](const Dados& d2) {
-            return d1.CPF_CNPJ == d2.CPF_CNPJ;
-        });
+        return any_of(dados2.begin(), dados2.end(), [&d1](const Dados& d2) { return d1.CPF_CNPJ == d2.CPF_CNPJ; });
     }), dados1.end());
 }
-
 // Função para criar um novo arquivo csv com a solução da operação
 void criar_csv(const vector<Dados>& dados, const string& nome_arquivo) {
     ofstream arquivo(nome_arquivo);
@@ -180,67 +100,29 @@ void criar_csv(const vector<Dados>& dados, const string& nome_arquivo) {
                     << d.Parc << ";" << d.Vlr << ";" << d.Venc << ";" << d.cdTipoCondicao << ";" << d.telefone << "\n";
         }
         arquivo.close();
-    } else {
-        cout << "Erro ao criar o arquivo " << nome_arquivo << endl;
-    }
+    } else { cout << "Erro ao criar o arquivo " << nome_arquivo << endl; }
 }
-
 // Função para tornar a interação com o software mais fácil de entender
-void style() {
-    cout << "----------------------------------------------------------------------------------" << endl;
-}
-
+void style() { cout << "----------------------------------------------------------------------------------" << endl; }
 void leitor_csv() {
-    string nome_arquivo1;
-    string nome_arquivo2;
-    string nome_arquivo3 = "solucao.csv";
-    string caminho_arquivo3;
-
-    cout << "Nome do Relatorio: ";
-    cin >> nome_arquivo1;
-    cout << "Nome da Lista: ";
-    cin >> nome_arquivo2;
-    cout << "Caminho do diretorio: ";
-    cin >> caminho_arquivo3;
-    style();
-
-    vector<Dados> dados1 = ler_csv(nome_arquivo1);
-    vector<Dados> dados2 = ler_csv(nome_arquivo2);
-
+    string nome_arquivo1; string nome_arquivo2; string nome_arquivo3 = "solucao.csv"; string caminho_arquivo3;
+    cout << "Nome do Relatorio: "; cin >> nome_arquivo1; cout << "Nome da Lista: "; cin >> nome_arquivo2; cout << "Caminho do diretorio: ";
+    cin >> caminho_arquivo3; style();
+    vector<Dados> dados1 = ler_csv(nome_arquivo1); vector<Dados> dados2 = ler_csv(nome_arquivo2);
     cout << "Dados do primeiro arquivo antes da operacao:\n";
-    mostrar_tabela(dados1);
-    remover_AT(dados1);
-    remover_clientes(dados1, dados2);
-    style();
-
-    cout << "Dados do primeiro arquivo depois da operacao:\n";
-    mostrar_tabela(dados1);
-    criar_csv(dados1, caminho_arquivo3 + "/" + nome_arquivo3);
-    style();
-
-    cout << "Novo arquivo csv criado com sucesso: " << caminho_arquivo3 + "/" + nome_arquivo3 << endl;
-    style();
+    mostrar_tabela(dados1); remover_AT(dados1); remover_clientes(dados1, dados2); style();
+    cout << "Dados do primeiro arquivo depois da operacao:\n"; mostrar_tabela(dados1); criar_csv(dados1, caminho_arquivo3 + "/" + nome_arquivo3); 
+    style(); cout << "Novo arquivo csv criado com sucesso: " << caminho_arquivo3 + "/" + nome_arquivo3 << endl; style();
 }
-
 // Função principal do programa
 int main() {
     int action;
-    cout << "[1] - Iniciar Procedimento \n[2] - Instrucoes \n[3] - Sair \n-> ";
-    cin >> action;
-    style();
-
-    if (action == 1) {
-        leitor_csv();
-    } else if (action == 2) {
-        leitura();
-    } else if (action == 3) {
-        cout << "Saindo . . . " << endl;
-    } else {
-        cout << "Acao invalida!" << endl;
-    }
-
-    system("pause");
-    return 0;
+    cout << "[1] - Iniciar Procedimento \n[2] - Sair \n-> ";
+    cin >> action; style();
+    if (action == 1) { leitor_csv(); } 
+    else if (action == 2) { cout << "Saindo . . . " << endl; } 
+    else { cout << "Acao invalida!" << endl; }
+    system("pause"); return 0;
 }
 // Copyright © 2024, Caio Vinicius de Almeida Faguette
 
